@@ -9,7 +9,7 @@ import Foundation
 
 // CoinGecko API info
 /*
- Url: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=2&sparkline=true&price_change_percentage=24h&locale=en&precision=6
+ Url: https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&page=1&sparkline=true&price_change_percentage=24h&locale=en&precision=18
 
 JSON response
  {
@@ -56,30 +56,30 @@ struct CoinModel: Codable, Identifiable {
     let symbol: String
     let name: String
     let image: String
-    let currentPrice: Double
-    let marketCap: Double
+    let currentPrice: Double?
+    let marketCap: Double?
     let marketCapRank: Double?
-    let fullyDilutedValuation: Double
-    let totalVolume: Double
-    let high24h: Double
-    let low24h: Double
-    let priceChange24h: Double
-    let priceChangePercentage24h: Double
-    let marketCapChange24h: Double
-    let marketCapChangePercentage24h: Double
-    let circulatingSupply: Double
-    let totalSupply: Double
+    let fullyDilutedValuation: Double?
+    let totalVolume: Double?
+    let high24h: Double?
+    let low24h: Double?
+    let priceChange24h: Double?
+    let priceChangePercentage24h: Double?
+    let marketCapChange24h: Double?
+    let marketCapChangePercentage24h: Double?
+    let circulatingSupply: Double?
+    let totalSupply: Double?
     let maxSupply: Double?
-    let ath: Double
-    let athChangePercentage: Double
-    let athDate: String
-    let atl: Double
-    let atlChangePercentage: Double
-    let atlDate: String
-    let roi: String?
-    let lastUpdated: String
-    let sparklineIn7d: SparklineIn7d
-    let priceChangePercentage24hInCurrency: Double
+    let ath: Double?
+    let athChangePercentage: Double?
+    let athDate: String?
+    let atl: Double?
+    let atlChangePercentage: Double?
+    let atlDate: String?
+    let roi: ROI?
+    let lastUpdated: String?
+    let sparklineIn7d: SparklineIn7d?
+    let priceChangePercentage24hInCurrency: Double?
     let currentHoldings: Double?
     
     enum CodingKeys: String, CodingKey {
@@ -109,13 +109,19 @@ struct CoinModel: Codable, Identifiable {
     }
     
     var curentHoldingValue: Double{
-        return (currentHoldings ?? 0) * currentPrice
+        return (currentHoldings ?? 0) * (currentPrice ?? 0)
     }
     
     var rank: Int{
         return Int(marketCapRank ?? 0)
     }
     
+}
+// MARK: - ROI
+struct ROI: Codable {
+    let times: Double
+    let currency: String
+    let percentage: Double
 }
 
 // MARK: - SparkLineIn7D
